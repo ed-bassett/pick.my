@@ -1,0 +1,129 @@
+<html>
+<head>
+<script src="./instafeed.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+var tags = [
+  {
+    name: 'Noodles',
+    tags: ['noodlesoup','noodle','noodles'],
+  },
+  {
+    name: 'Soup',
+    tags: ['soup','soups'],
+  },
+  {
+    name: 'Turkish',
+    tags: ['turkishfood','turkishcuisine'],
+  },
+  {
+    name: 'Mexican',
+    tags: ['Mexicanfood','mexicanfoodporn','mexicangourmet'],
+  },
+  {
+    name: 'Japanese',
+    tags: ['japanesefood','japanesefoodporn','japanesecuisine'],
+  },
+];
+
+
+
+$('document').ready(function () {
+$.fn.animateRotate = function(angle, duration, easing, complete) {
+    return this.each(function() {
+        var $elem = $(this);
+
+        $({deg: 0}).animate({deg: angle}, {
+            duration: duration,
+            easing: easing,
+            step: function(now) {
+                $elem.css({
+                    transform: 'rotate(' + now + 'deg)'
+                });
+            },
+            complete: complete || $.noop
+        });
+    });
+};
+
+
+    var feed = new Instafeed({
+        get: 'tagged',
+        tagName: 'awesome',
+        clientId: 'a07275a5d7734d7a8b18cc5fed9fe97b'
+    });
+    feed.run();
+
+
+  var wheel = $('#wheel');
+  for (var i=0;i<tags.length;i++){
+    console.log(tags[i].name);
+
+    wheel.append('<div class="section" style="-webkit-transform: translateY(-50%) rotateZ('+i*360/tags.length+'deg)"><div class="section-content">' + tags[i].name + '</div></div>')
+  }
+  $('#inspire').on('click', function() {
+    console.log("inspire");
+    wheel.animateRotate(1080+(360/tags.length)*Math.floor((Math.random() * tags.length) + 1),3000,'swing',function(){console.log('done');});
+  });
+});
+</script>
+<style type="text/css">
+body {
+  font-family:helvetica, sans-serif;
+
+}
+#inspire {
+  position:absolute;
+  top:50%;
+  -webkit-transform:translateY(-50%);
+  cursor:pointer;
+  margin:auto;
+  display:inline-block;
+  background:#e0e0e0;
+  padding:20px;
+}
+#wheel {
+  overflow:hidden;
+  background:#606060;
+  position:absolute;
+  right:-25vw;
+  width:50vw;
+  height:50vw;
+  border-radius:100%;
+  display:flex;
+
+}
+#wheel .section {
+  box-sizing:border-box;
+  position:absolute;
+  width:50%;
+  top:50%;
+  left:0%;
+  border:25vw solid #505050;
+  border-top-width:10vw;
+  border-bottom-width:10vw;
+  border-top-color:transparent;
+  border-bottom-color:transparent;
+  border-right:none;
+  width:0;
+  height:0;
+  color:white;
+  -webkit-transform-origin: 100% 50%;
+}
+#wheel .section .section-content {
+  position:absolute;
+  left:-25vw;
+  -webkit-transform:translateY(-50%);
+  box-sizing:border-box;
+  padding:10px;
+  font-size:1.5em;
+}
+</style>
+</head>
+<body>
+<div id="inspire" class="button">Inspire me for lunch</div>
+<div id="wheel">
+<div id="instafeed"></div>
+</div>
+</body>
+</html>
