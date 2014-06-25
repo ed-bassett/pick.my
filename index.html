@@ -510,8 +510,24 @@ this.unblockInteraction = function () {
 
     imageContainer.append(gridNode);
     popupContent.append(imageContainer);
+
+    ;
+    buttonBar = $('<div class="buttonBar">').append(
+      self.button('inspire','Share',self.showShare).addClass('default')
+    );
+    popupContent.append(buttonBar);
     self.showPopup(popupContent);
   }
+
+  this.showShare = function () {
+    FB.ui({
+      name: 'pick.my/lunch/',
+      method: 'feed',
+      link: 'http://pick.my/lunch/',
+      caption: 'Lunch sorted - pick.my/lunch/',
+      picture: 'http:' + self.selectedImage(self.likes[0]).attr('src'),
+    }, function(response){});
+  };
 
   this.addLiked = function (num) {
     self.likeDecisions++;
@@ -556,6 +572,23 @@ $('document').ready(function () {
 <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 <body>
+<script>
+        window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '741988392514495',
+          xfbml      : true,
+          version    : 'v2.0'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+</script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
